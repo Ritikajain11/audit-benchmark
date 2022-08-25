@@ -1,0 +1,28 @@
+version: 0.2  
+
+phases:
+  pre_build:
+    commands:
+      - echo PreBuild Started ...
+      - aws --version
+      - docker --version
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 274201610284.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building java
+      - docker login -u="ritikaj16" -p="Kalpana@1"
+      - mvn clean package
+      - echo Building the docker image
+      - docker build -t severity-2066165 .
+      - docker tag severity-2066165:latest 274201610284.dkr.ecr.us-east-1.amazonaws.com/severity-2066165:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - docker push 274201610284.dkr.ecr.us-east-1.amazonaws.com/severity-2066165:latest
+      - echo Writing definition files
+      - printf '[{"name":"2066165-severity","imageUri":"%s"}]' 274201610284.dkr.ecr.us-east-1.amazonaws.com/severity-2066165 > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
