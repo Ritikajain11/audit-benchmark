@@ -14,14 +14,14 @@ phases:
       - docker login -u="ritikaj16" -p="Kalpana@1"
       - mvn clean package
       - echo Building the docker image
-      - docker build -t severity-2066165 .
-      - docker tag severity-2066165:latest 274201610284.dkr.ecr.us-east-1.amazonaws.com/severity-2066165:latest
+      - docker build -t benchmark-2066165 .
+      - docker tag benchmark-2066165:latest 274201610284.dkr.ecr.us-east-1.amazonaws.com/benchmark-2066165:latest
   post_build:
     commands:
       - echo Build completed on `date`
-      - docker push 274201610284.dkr.ecr.us-east-1.amazonaws.com/severity-2066165:latest
+      - docker push 274201610284.dkr.ecr.us-east-1.amazonaws.com/benchmark-2066165:latest
       - echo Writing definition files
-      - printf '[{"name":"2066165-severity","imageUri":"%s"}]' 274201610284.dkr.ecr.us-east-1.amazonaws.com/severity-2066165 > imagedefinitions.json
+      - printf '[{"name":"2066165-benchmark","imageUri":"%s"}]' 274201610284.dkr.ecr.us-east-1.amazonaws.com/benchmark-2066165 > imagedefinitions.json
 
 artifacts:
   files:
